@@ -1,6 +1,8 @@
 package ar.edu.unlam.dominio;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 
@@ -8,6 +10,93 @@ import org.junit.Test;
 
 public class SistemaGestionSupermercadoTest {
 
+	@Test
+	public void agregarAlimentoAlSupermercadoDevuelveTrue() {
+
+		Supermercado supermercado = new Supermercado();
+
+		Integer id = 1;
+		String nombre = "medallonCarne";
+		String marca = "Paty";
+		Double precioUnitario = 15.0;
+		Integer cantidadDisponible = 20;
+		LocalDate fechaVenta = LocalDate.of(2025, 4, 2);
+
+		Producto medallonCarne = new Alimento(id, nombre, marca, precioUnitario, cantidadDisponible, fechaVenta);
+
+		Boolean seAgrego = supermercado.agregarProducto(medallonCarne);
+
+		assertTrue(seAgrego);
+	}
+
+	@Test
+	public void agregarAlimentoDuplicadoAlSupermercadoDevuelveFalse() {
+
+		Supermercado supermercado = new Supermercado();
+
+		Integer id = 1;
+		String nombre = "medallonCarne";
+		String marca = "Paty";
+		Double precioUnitario = 15.0;
+		Integer cantidadDisponible = 20;
+		LocalDate fechaVenta = LocalDate.of(2025, 4, 2);
+
+		Producto medallonCarne = new Alimento(id, nombre, marca, precioUnitario, cantidadDisponible, fechaVenta);
+
+		Producto medallonCarne2 = new Alimento(id, nombre, marca, precioUnitario, cantidadDisponible, fechaVenta);
+
+		supermercado.agregarProducto(medallonCarne);
+
+		Boolean seAgrego2 = supermercado.agregarProducto(medallonCarne2);
+
+		assertFalse(seAgrego2);
+	}
+
+	@Test
+	public void conseguirPrecioUnitarioDeUnProductoEspecifico() {
+
+		Supermercado supermercado = new Supermercado();
+
+		Integer id = 1;
+		String nombre = "medallonCarne";
+		String marca = "Paty";
+		Double precioUnitario = 15.0;
+		Integer cantidadDisponible = 20;
+		LocalDate fechaVenta = LocalDate.of(2025, 4, 2);
+
+		Producto medallonCarne = new Alimento(id, nombre, marca, precioUnitario, cantidadDisponible, fechaVenta);
+
+		Integer id2 = 2;
+		String nombre2 = "Gaseosa Coca-Cola Original";
+		String marca2 = "Coca-Cola";
+		Double precioUnitario2 = 20.0;
+		Integer cantidadDisponible2 = 10;
+		Double litro = 2.0;
+		Boolean esAlcoholica = false;
+
+		Producto cocaCola = new Bebida(id2, nombre2, marca2, precioUnitario2, cantidadDisponible2, litro, esAlcoholica,
+				fechaVenta);
+
+		Integer id3 = 3;
+		String nombre3 = "Lavandina";
+		String marca3 = "Ayudin";
+		Double precioUnitario3 = 75.0;
+		Integer cantidadDisponible3 = 8;
+		Boolean esToxico = true;
+		Boolean esBiodegradable = false;
+
+		Producto lavandina = new Limpieza(id3, nombre3, marca3, precioUnitario3, cantidadDisponible3, esToxico,
+				esBiodegradable);
+
+		supermercado.agregarProducto(medallonCarne);
+		supermercado.agregarProducto(cocaCola);
+		supermercado.agregarProducto(lavandina);
+
+		Double valorEsperado = 20.0;
+		Double valor = supermercado.precioUnitarioProducto(2);
+
+		assertEquals(valorEsperado, valor);
+	}
 	
 	@Test
 	public void conseguirPrecioFinalDeUnAlimentoATresDiasDeVencer() {
