@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -245,4 +246,47 @@ public class SistemaGestionSupermercadoTest {
 		assertEquals(precioEsperado, precio, 0.001);
 
 	}
+	@Test
+	public void conseguirPrecioFinalDeUnClienteConTarjetaSocial() {
+		LocalDate fechaVenta = LocalDate.of(2025, 4, 2);
+
+		Producto cerveza = new Bebida(2, "Cerveza Rubia Clásica", "Quilmes", 50.0, 15, 1.5, true, fechaVenta);
+		Cliente cliente = new Cliente("alex", 12, true);
+
+		Supermercado supermercado = new Supermercado();
+		supermercado.agregarProducto(cerveza);
+		supermercado.agregarCliente(cliente);
+
+		Double precioEsperado = 47.25;
+		Double precio = supermercado.precioFinalDeUnProducto(2, 2, 12, fechaVenta);
+
+		assertEquals(precioEsperado, precio, 0.001);
+	}
+	@Test
+	public void dadoQueExisteUnSupermercadoConProductosPodremosObtenerTodosLosProductosEnElStockConPrecioMenorA200() {
+
+		LocalDate fechaVenta = LocalDate.of(2025, 4, 2);
+
+		Producto pan = new Alimento(1, "Pan", "Bimbo", 15.0, 10, fechaVenta);
+
+		Producto cerveza = new Bebida(2, "Cerveza Rubia Clásica", "Quilmes", 50.0, 15, 1.5, true, fechaVenta);
+
+		Producto lavandina = new Limpieza(3, "Lavandina Concentrada", "Ayudin", 500.0, 12, true, true);
+
+		Cliente cliente = new Cliente("juan", 12, false);
+		Supermercado supermercado = new Supermercado();
+
+		supermercado.agregarProducto(lavandina);
+		supermercado.agregarProducto(cerveza);
+		supermercado.agregarProducto(pan);
+		supermercado.agregarCliente(cliente);
+
+		List<Producto> listaFiltrada = supermercado.productosConPrecioMenorA(200.0);
+
+		Integer productosEsperado = 2;
+		Integer lista = listaFiltrada.size();
+
+		assertEquals(productosEsperado, lista);
+	}
+
 }
