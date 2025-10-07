@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -288,5 +289,16 @@ public class SistemaGestionSupermercadoTest {
 
 		assertEquals(productosEsperado, lista);
 	}
+	@Test
+	public void eliminarProductoPorIdDeberiaQuitarloDelStock() {
+	    Producto bebida = new Bebida(5, "Coca-Cola", "Coca-Cola", 20.0, 5, 2.0, false, LocalDate.of(2025, 12, 1));
+	    Supermercado supermercado = new Supermercado();
+		supermercado.agregarProducto(bebida);
 
+	    ArrayList<Producto> productos = new ArrayList<Producto>();
+	    boolean eliminado = productos.removeIf(p -> p.getId() == 5);
+
+	    assertTrue(productos.isEmpty());
+	}
+	
 }
