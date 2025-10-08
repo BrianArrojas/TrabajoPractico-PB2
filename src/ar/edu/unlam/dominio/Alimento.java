@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Alimento extends Producto{
 
-	private Double iva = 1.23;
+	private Double iva = 1.21;
 	private Double descuentoPorCantidad = 0.15;
 	private LocalDate fechaVencimiento;
 
